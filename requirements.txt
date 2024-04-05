@@ -1,0 +1,32 @@
+# Pin dependencies that might cause breakage
+Werkzeug
+SQLAlchemy
+
+# Build dependencies
+Flask
+Flask-SQLAlchemy
+psycopg2-binary
+python-dotenv
+Flask-Talisman
+Flask-CORS
+
+# Runtime dependencies
+gunicorn
+honcho
+
+# Code quality
+pylint
+flake8
+black
+
+# Testing dependencies
+nose
+pinocchio
+factory-boy
+pytest
+
+# Code Coverage
+coverage
+
+# Utilities
+httpie
