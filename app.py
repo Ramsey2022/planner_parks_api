@@ -1,4 +1,12 @@
 from flask import Flask, request, abort, Response, jsonify
+from dotenv import load_dotenv
+import os
+import googlemaps
+import pprint
+import time
+
+load_dotenv(".env")
+API_KEY = os.getenv("google_map_key")
 
 app = Flask(__name__)
 
