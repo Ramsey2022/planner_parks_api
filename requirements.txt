@@ -10,8 +10,6 @@ python-dotenv
 Flask-Talisman
 Flask-CORS
 googlemaps
-time
-pprint
 
 # Runtime dependencies
 gunicorn
