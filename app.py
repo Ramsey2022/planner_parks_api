@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, Response, jsonify
+from flask import Flask, request, abort, Response, jsonify, render_template
 from dotenv import load_dotenv
 import os
 import googlemaps
@@ -19,7 +19,7 @@ geocode_loc = (lat, lon)
 
 # Define search for parks
 parks_result = gmaps.places_nearby(
-    location=geocode_loc, radius=20000, open_now=False, type="park"
+    location=geocode_loc, radius=2000, open_now=False, type="park"
 )
 
 
@@ -33,9 +33,37 @@ def health():
     return jsonify(dict(status="OK")), 200
 
 
-@app.route("/parks")
-def parks():
+@app.route("/parkjson")
+def parkjson():
     return jsonify(parks_result)
+
+
+@app.route("/parks", methods=["GET"])
+def parks():
+    zip = request.args.get("zip")
+
+    if zip is None:
+        abort(400, "Missing zipcode argument")
+
+    # Geocode a zipcode
+    geocode_results = gmaps.geocode(zip)
+    lats = geocode_results[0]["geometry"]["location"]["lat"]
+    lons = geocode_results[0]["geometry"]["location"]["lng"]
+    geocode_location = (lats, lons)
+
+    # Define search for parks
+    park_results = gmaps.places_nearby(
+        location=geocode_location, radius=2000, open_now=False, type="park"
+    )
+
+    resp = Response(park_results)
+    resp.status_code = 200
+    return render_template(
+        "index.html",
+        title="Nearby Parks",
+        results=(park_results),
+        API_KEY=(API_KEY),
+    )
 
 
 if __name__ == "__main__":

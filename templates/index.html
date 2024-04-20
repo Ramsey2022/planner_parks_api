@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            table {
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+
+            #photos {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Nearby Parks</th>
+            </tr>
+            {% for item in results["results"] %}
+                <tr>
+                    <td>{{ item["name"] }}</td>
+                    <td>Address: {{ item["vicinity"] }}</td>
+                    <td>Rating: {{ item["rating"] }}</td>
+                    <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photo_reference={{ item['photo_reference'] }}&key=API_KEY"></img></div></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
