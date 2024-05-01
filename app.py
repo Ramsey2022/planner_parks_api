@@ -40,28 +40,44 @@ def parkjson():
 
 @app.route("/parks", methods=["GET"])
 def parks():
-    zip = request.args.get("zip")
+    # zip = request.args.get("zip")
 
-    if zip is None:
-        abort(400, "Missing zipcode argument")
+    # if zip is None:
+    # abort(400, "Missing zipcode argument")
 
     # Geocode a zipcode
-    geocode_results = gmaps.geocode(zip)
+    geocode_results = gmaps.geocode("97124")
     lats = geocode_results[0]["geometry"]["location"]["lat"]
     lons = geocode_results[0]["geometry"]["location"]["lng"]
     geocode_location = (lats, lons)
 
     # Define search for parks
     park_results = gmaps.places_nearby(
-        location=geocode_location, radius=2000, open_now=False, type="park"
+        location=geocode_location, radius=4000, open_now=False, type="park"
     )
 
     resp = Response(park_results)
     resp.status_code = 200
+
+    park_data = []
+
+    for park in park_results["results"]:
+        try:
+            parks = {
+                "name": park["name"],
+                "address": park["vicinity"],
+                "rating": park["rating"],
+                "photo_ref": park["photos"][0]["photo_reference"],
+            }
+        except KeyError:
+            park["rating"] = None
+
+        park_data.append(parks)
+
     return render_template(
         "index.html",
         title="Nearby Parks",
-        results=(park_results),
+        park_data=park_data,
         API_KEY=(API_KEY),
     )
 

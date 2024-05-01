@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>{{ title }}</title>
@@ -29,12 +30,12 @@
             <tr>
                 <th>Nearby Parks</th>
             </tr>
-            {% for item in results["results"] %}
+            {% for park in park_data %}
                 <tr>
-                    <td>{{ item["name"] }}</td>
-                    <td>Address: {{ item["vicinity"] }}</td>
-                    <td>Rating: {{ item["rating"] }}</td>
-                    <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photo_reference={{ item['photo_reference'] }}&key=API_KEY"></img></div></td>
+                    <td>{{ park.name }}</td>
+                    <td>Address: {{ park.address }}</td>
+                    <td>Rating: {{ park.rating }}</td>
+                    <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?parameters&maxheight=400&maxwidth=400&photo_reference={{ park.photo_ref }}&key={{ API_KEY }}"></img></div></td>
                 </tr>
             {% endfor %}
         </table>
