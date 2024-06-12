@@ -1,5 +1,5 @@
 # Parks API
-Park API that pulls nearby parks from Google Places API
+Park API built with Flask that pulls nearby parks from Google Places API
 
 ## Features
 - Docker-compose dev environment that updates upon changes
