@@ -68,18 +68,14 @@ def parks():
                 "address": park["vicinity"],
                 "rating": park["rating"],
                 "photo_ref": park["photos"][0]["photo_reference"],
+                "key": API_KEY,
             }
         except KeyError:
             park["rating"] = None
 
         park_data.append(parks)
-
-    return render_template(
-        "index.html",
-        title="Nearby Parks",
-        park_data=park_data,
-        API_KEY=(API_KEY),
-    )
+    # print(jsonify(park_data))
+    return jsonify(park_data)
 
 
 if __name__ == "__main__":
