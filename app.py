@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, Response, jsonify, render_template
+from flask import Flask, request, Response, jsonify
 from dotenv import load_dotenv
 import os
 import googlemaps
@@ -33,20 +33,12 @@ def health():
     return jsonify(dict(status="OK")), 200
 
 
-@app.route("/parkjson")
-def parkjson():
-    return jsonify(parks_result)
-
-
-@app.route("/parks", methods=["GET"])
+@app.route("/parks", methods=["GET", "POST"])
 def parks():
-    # zip = request.args.get("zip")
-
-    # if zip is None:
-    # abort(400, "Missing zipcode argument")
+    json_data = request.get_json()
 
     # Geocode a zipcode
-    geocode_results = gmaps.geocode("97124")
+    geocode_results = gmaps.geocode(json_data["postal_code"])
     lats = geocode_results[0]["geometry"]["location"]["lat"]
     lons = geocode_results[0]["geometry"]["location"]["lng"]
     geocode_location = (lats, lons)
@@ -71,10 +63,9 @@ def parks():
                 "key": API_KEY,
             }
         except KeyError:
-            park["rating"] = None
+            parks["rating"] = None
 
         park_data.append(parks)
-    # print(jsonify(park_data))
     return jsonify(park_data)
 
 
