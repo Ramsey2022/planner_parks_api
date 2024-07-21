@@ -66,7 +66,12 @@ def parks():
             parks["rating"] = None
 
         park_data.append(parks)
-    return jsonify(park_data)
+        unique_park_data = [
+            dict(tupleized)
+            for tupleized in set(tuple(item.items()) for item in park_data)
+        ]
+
+    return jsonify(unique_park_data)
 
 
 if __name__ == "__main__":
