@@ -13,3 +13,4 @@ Park API built with Flask that pulls nearby parks from Google Places API
 
 # Demo
 <img src="img/planner_parks_demo.png" alt="parks api demo">
+<img src="img/flask_parks_test.png" alt="parks pytest demo">
