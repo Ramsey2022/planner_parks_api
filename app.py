@@ -11,17 +11,6 @@ app = Flask(__name__)
 # Define client
 gmaps = googlemaps.Client(key=API_KEY)
 
-# Geocode a zipcode
-geocode_result = gmaps.geocode("97124")
-lat = geocode_result[0]["geometry"]["location"]["lat"]
-lon = geocode_result[0]["geometry"]["location"]["lng"]
-geocode_loc = (lat, lon)
-
-# Define search for parks
-parks_result = gmaps.places_nearby(
-    location=geocode_loc, radius=2000, open_now=False, type="park"
-)
-
 
 @app.route("/")
 def root():
