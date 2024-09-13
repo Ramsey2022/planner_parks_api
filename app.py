@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import googlemaps
 
+# load api key
 load_dotenv(".env")
 API_KEY = os.getenv("google_map_key")
 
@@ -14,16 +15,34 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 @app.route("/")
 def root():
+    """
+    Returns a message for working server
+
+    Returns:
+        message: Server is running!
+    """
     return {"message": "Server is running!"}
 
 
 @app.route("/health")
 def health():
+    """
+    Returns http status code in json
+
+    Returns:
+        if status = ok: return 200
+    """
     return jsonify(dict(status="OK")), 200
 
 
 @app.route("/parks", methods=["GET", "POST"])
 def parks():
+    """
+    Takes in postal code with GET request to app, then using google Places API, geocode the postal code, search for parks via postal code and finally return transformed data in a POST json response
+
+    Returns:
+        json: parks within acquired zipcode
+    """
     json_data = request.get_json()
 
     # Geocode a zipcode
